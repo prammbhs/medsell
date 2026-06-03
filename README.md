@@ -566,8 +566,8 @@ DATABASE_URL=<neon_production_url> npx tsx src/db/seed.ts
 |--------|-----------------------|-------------|---------------------------------|
 | Admin  | `admin@example.com`   | `admin123`  | Full dashboard, product + order management |
 | Seller | `seller@example.com`  | `seller123` | Product catalogue, order placement + history |
+| buyer | `buyer@example.com`  | `buyer123` | Product catalogue, order placement + history |
 
-> Change these credentials immediately in any shared or production environment.
 
 ---
 
@@ -619,6 +619,6 @@ This architecture is designed to scale from a hackathon prototype to a productio
 
 <div align="center">
 
-Built with ♦ by [Param](https://github.com/your-username)
+Built with ♦ by [Param](https://github.com/prammbhs)
 
 </div>
