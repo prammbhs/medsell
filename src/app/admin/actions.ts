@@ -2,7 +2,7 @@
 
 import { auth } from '@/auth';
 import { db } from '@/db';
-import { products } from '@/db/schema';
+import { products, orders } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { productSchema } from '@/lib/validations';
 import { convertToBaseUnit, calculatePricePerBaseUnit } from '@/lib/conversions';
