@@ -7,9 +7,7 @@ import { signOut } from 'next-auth/react';
 import { 
   LayoutDashboard, 
   Package, 
-  Database, 
   ShoppingBag, 
-  Settings as SettingsIcon, 
   LogOut, 
   User, 
   Activity,
@@ -30,29 +28,30 @@ interface SidebarProps {
 
 export function Sidebar({ role, email, pendingCount }: SidebarProps) {
   const pathname = usePathname();
+  // Start collapsed=false on server & client (avoids SSR hydration mismatch).
+  // Sync from localStorage only after mount (client-side external system).
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [settingsTab, setSettingsTab] = useState<'profile' | 'password'>('profile');
-  
+
   // Settings Form State
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profileName, setProfileName] = useState(email ? email.split('@')[0] : 'User');
-  const [profileEmail, setProfileEmail] = useState(email || '');
+  const [profileEmail] = useState(email || '');
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Load collapse state from localStorage if available
+  // Sync collapse state from localStorage after hydration (safe external-system read)
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     const saved = localStorage.getItem('sidebar-collapsed');
-    if (saved) {
-      setIsCollapsed(saved === 'true');
-    }
+    if (saved !== null) setIsCollapsed(saved === 'true');
   }, []);
 
   // Close dropdown when clicking outside
@@ -119,12 +118,6 @@ export function Sidebar({ role, email, pendingCount }: SidebarProps) {
       href: '/admin/products',
       label: 'Product Management',
       icon: Package,
-      show: role === 'ADMIN',
-    },
-    {
-      href: '/admin/products',
-      label: 'Inventory Management',
-      icon: Database,
       show: role === 'ADMIN',
     },
     {

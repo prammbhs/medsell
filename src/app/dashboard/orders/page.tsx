@@ -27,7 +27,7 @@ export default async function OrdersPage() {
     .innerJoin(users, eq(orders.userId, users.id));
 
   if (role !== 'ADMIN') {
-    // @ts-ignore
+    // @ts-expect-error -- Drizzle conditional where type mismatch
     allOrdersQuery = allOrdersQuery.where(eq(orders.userId, userId));
   }
 

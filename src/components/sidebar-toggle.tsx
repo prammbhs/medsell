@@ -8,7 +8,6 @@ import {
   X, 
   LayoutDashboard, 
   Package, 
-  Database, 
   ShoppingBag, 
   Settings as SettingsIcon, 
   LogOut, 
@@ -97,19 +96,6 @@ export function SidebarToggle({ role, email, pendingCount }: SidebarToggleProps)
                       <div className="flex items-center gap-3">
                         <Package className="h-4.5 w-4.5 text-zinc-500" />
                         <span>Product Management</span>
-                      </div>
-                    </Link>
-                  )}
-
-                  {role === 'ADMIN' && (
-                    <Link
-                      href="/admin/products"
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-[#141417] hover:text-white text-zinc-400"
-                    >
-                      <div className="flex items-center gap-3">
-                        <Database className="h-4.5 w-4.5 text-zinc-500" />
-                        <span>Inventory Management</span>
                       </div>
                     </Link>
                   )}

@@ -1,16 +1,17 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+// This file uses require() intentionally for runtime-conditional DNS patching in Node.js.
+// It must NOT run in the Edge runtime, hence the guards below.
 if (typeof window === 'undefined' && process.env.NEXT_RUNTIME !== 'edge') {
   try {
     const dns = require('dns');
     const originalLookup = dns.lookup;
-    // @ts-ignore
-    dns.lookup = function(hostname, options, callback) {
+    dns.lookup = function (hostname: string, options: unknown, callback: unknown) {
       if (typeof options === 'function') {
         callback = options;
         options = {};
       }
       if (hostname.includes('neon.tech')) {
-        // @ts-ignore
-        return callback(null, [{ address: '52.4.160.253', family: 4 }]);
+        return (callback as Function)(null, [{ address: '52.4.160.253', family: 4 }]);
       }
       return originalLookup(hostname, options, callback);
     };

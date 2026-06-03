@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createProduct, updateProduct, deleteProduct } from '@/app/admin/actions';
-import { formatINR, convertFromBaseUnit, BASE_UNITS, DIMENSION_UNITS } from '@/lib/conversions';
+import { formatINR, convertFromBaseUnit, BASE_UNITS } from '@/lib/conversions';
 import { 
   Search, 
   Plus, 
   Edit, 
   Trash2, 
-  X, 
   AlertTriangle, 
   ArrowLeft, 
   Sparkles, 
-  Upload, 
   Check, 
   Info,
   Pill,
@@ -51,7 +49,7 @@ interface Product {
 }
 
 export function ProductManager({ initialProducts }: { initialProducts: Product[] }) {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products] = useState<Product[]>(initialProducts);
   const [searchQuery, setSearchQuery] = useState('');
   const [view, setView] = useState<'list' | 'form'>('list');
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -197,9 +195,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
     setStrength(p.strength || '');
     setCategory(p.category || '');
     setManufacturer(p.manufacturer || '');
-    
-    // Total quantity is stored in base units in DB
-    const baseUnit = BASE_UNITS[p.dimensionType];
+
     setQuantity(parseFloat(p.totalQuantity).toString());
     setPrice(parseFloat(p.pricePerBaseUnit).toString());
     
@@ -694,16 +690,6 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
                     <div className="w-8 h-4.5 bg-zinc-800 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
-              </div>
-            </div>
-
-            {/* Product Image */}
-            <div className="rounded-2xl border border-[#1f1f23] bg-[#09090b] p-6 space-y-4">
-              <h3 className="font-extrabold text-white border-b border-[#1f1f23] pb-2">Product Image</h3>
-              <div className="border border-dashed border-zinc-800 rounded-xl bg-[#141417] p-6 flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition cursor-pointer">
-                <Upload className="h-6 w-6 text-zinc-500 mb-2" />
-                <span className="font-bold text-white text-[11px]">Click to upload</span>
-                <span className="text-[9px] text-zinc-550 mt-1">PNG, JPG, WEBP up to 5MB</span>
               </div>
             </div>
 

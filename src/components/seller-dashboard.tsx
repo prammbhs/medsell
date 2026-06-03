@@ -28,7 +28,7 @@ interface CartItem {
 }
 
 export function SellerDashboard({ initialProducts }: { initialProducts: Product[] }) {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products] = useState<Product[]>(initialProducts);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDimension, setSelectedDimension] = useState<string>('ALL');
   
@@ -47,7 +47,7 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
     return productInputs[product.id] || { quantity: '', unit: defaultUnit };
   };
 
-  const handleInputChange = (productId: string, field: 'quantity' | 'unit', value: any) => {
+  const handleInputChange = (productId: string, field: 'quantity' | 'unit', value: string) => {
     setProductInputs(prev => ({
       ...prev,
       [productId]: {
@@ -290,7 +290,7 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
                             {DIMENSION_UNITS[product.dimensionType].length > 1 ? (
                               <select
                                 value={inputState.unit}
-                                onChange={(e) => handleInputChange(product.id, 'unit', e.target.value as any)}
+                                onChange={(e) => handleInputChange(product.id, 'unit', e.target.value)}
                                 className="border-l border-[#1f1f23] bg-zinc-900 px-2 text-[10px] font-bold text-zinc-305 focus:outline-none cursor-pointer"
                               >
                                 {DIMENSION_UNITS[product.dimensionType].map((u) => (

@@ -93,10 +93,10 @@ export function OrderList({
                   <div className="flex items-start gap-4">
                     <div className={`rounded-xl p-2.5 ${
                       order.status === 'COMPLETED'
-                        ? 'bg-zinc-800 text-zinc-300 border border-zinc-700'
+                        ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25'
                         : order.status === 'CANCELLED'
-                        ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                        ? 'bg-rose-500/15 text-rose-400 border border-rose-500/25'
+                        : 'bg-orange-500/15 text-orange-400 border border-orange-500/25'
                     }`}>
                       {order.status === 'COMPLETED' ? (
                         <CheckCircle2 className="h-5 w-5" />
@@ -114,10 +114,10 @@ export function OrderList({
                         </span>
                         <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold ${
                           order.status === 'COMPLETED'
-                            ? 'bg-zinc-800 text-zinc-300 border border-zinc-750'
+                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25'
                             : order.status === 'CANCELLED'
-                            ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                            : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                            ? 'bg-rose-500/15 text-rose-400 border border-rose-500/25'
+                            : 'bg-orange-500/15 text-orange-400 border border-orange-500/25'
                         }`}>
                           {order.status}
                         </span>
@@ -207,16 +207,16 @@ export function OrderList({
                               disabled={isUpdating || order.status === st}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleStatusChange(order.id, st as any);
+                                handleStatusChange(order.id, st as 'PENDING' | 'COMPLETED' | 'CANCELLED');
                               }}
                               className={`px-3 py-1.5 rounded-lg text-[10px] font-bold border transition cursor-pointer ${
                                 order.status === st
                                   ? 'bg-[#141417] border-[#1f1f23] text-zinc-300'
                                   : st === 'COMPLETED'
-                                  ? 'border-zinc-750 text-white bg-zinc-800 hover:bg-zinc-700'
+                                  ? 'border-emerald-500/25 text-emerald-400 hover:bg-emerald-500/10'
                                   : st === 'CANCELLED'
-                                  ? 'border-rose-500/20 text-rose-400 hover:bg-rose-500/10'
-                                  : 'border-amber-500/20 text-amber-400 hover:bg-amber-500/10'
+                                  ? 'border-rose-500/25 text-rose-400 hover:bg-rose-500/10'
+                                  : 'border-orange-500/25 text-orange-400 hover:bg-orange-500/10'
                               }`}
                             >
                               {st}

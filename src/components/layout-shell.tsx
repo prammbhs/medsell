@@ -3,11 +3,9 @@ import { auth } from '@/auth';
 import { db } from '@/db';
 import { orders } from '@/db/schema';
 import { eq, sql, and } from 'drizzle-orm';
-import { 
-  ChevronRight, 
-  Calendar,
-  Download,
-  Search
+import {
+  ChevronRight,
+  Calendar
 } from 'lucide-react';
 import { SidebarToggle } from './sidebar-toggle';
 import { Sidebar } from './sidebar';
@@ -26,9 +24,9 @@ export async function LayoutShell({ children }: { children: React.ReactNode }) {
     const pendingQuery = db
       .select({ count: sql<number>`count(*)` })
       .from(orders)
-      .where(role === 'ADMIN' 
+      .where(role === 'ADMIN'
         ? eq(orders.status, 'PENDING')
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         : and(eq(orders.status, 'PENDING'), eq(orders.userId, userId))
       );
     const res = await pendingQuery;
@@ -55,7 +53,7 @@ export async function LayoutShell({ children }: { children: React.ReactNode }) {
         <header className="h-16 shrink-0 border-b border-[#1f1f23] bg-[#09090b] px-6 lg:px-8 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 flex-1">
             <SidebarToggle role={role} pendingCount={pendingCount} email={email ?? null} />
-            
+
             {/* Breadcrumb path */}
             <div className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-zinc-500">
               <span className="text-zinc-450">Medsell</span>
