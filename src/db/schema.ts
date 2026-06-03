@@ -1,4 +1,5 @@
-import { pgTable, uuid, varchar, text, numeric, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, numeric, timestamp, pgEnum, boolean } from "drizzle-orm/pg-core";
+
 
 export const roleEnum = pgEnum('role', ['ADMIN', 'SELLER', 'BUYER']);
 export const dimensionEnum = pgEnum('dimensionType', ['WEIGHT', 'VOLUME', 'COUNT']);
@@ -21,6 +22,24 @@ export const products = pgTable('products', {
   dimensionType: dimensionEnum('dimensionType').notNull(),
   totalQuantity: numeric('totalQuantity', { precision: 20, scale: 6 }).default('0').notNull(),
   pricePerBaseUnit: numeric('pricePerBaseUnit', { precision: 19, scale: 4 }).notNull(),
+
+  category: varchar('category', { length: 100 }),
+  manufacturer: varchar('manufacturer', { length: 255 }),
+  strength: varchar('strength', { length: 100 }),
+  packSize: numeric('packSize', { precision: 10, scale: 2 }),
+  baseUnit: varchar('baseUnit', { length: 50 }),
+  wholesalePrice: numeric('wholesalePrice', { precision: 19, scale: 4 }),
+  gstRate: numeric('gstRate', { precision: 5, scale: 2 }),
+  maxDiscount: numeric('maxDiscount', { precision: 5, scale: 2 }),
+  lowStockThreshold: numeric('lowStockThreshold', { precision: 20, scale: 6 }),
+  status: varchar('status', { length: 50 }).default('Active'),
+  prescriptionRequired: boolean('prescriptionRequired').default(false),
+  controlledSubstance: boolean('controlledSubstance').default(false),
+  coldChainRequired: boolean('coldChainRequired').default(false),
+  hsnCode: varchar('hsnCode', { length: 50 }),
+  drugSchedule: varchar('drugSchedule', { length: 100 }),
+  trackExpiry: boolean('trackExpiry').default(false),
+
   createdAt: timestamp('createdAt').defaultNow(),
   updatedAt: timestamp('updatedAt').defaultNow(),
 });

@@ -153,48 +153,39 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
-          Product Catalog
-        </h1>
-        <p className="text-zinc-500 dark:text-zinc-400 mt-1">
-          Browse items, select quantities in preferred units, and place orders.
-        </p>
-      </div>
-
       {orderSuccess && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 dark:bg-emerald-950/20 dark:border-emerald-900/50 dark:text-emerald-400 flex items-center gap-3">
-          <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400 shrink-0" />
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-450 flex items-center gap-3">
+          <CheckCircle2 className="h-6 w-6 text-emerald-450 shrink-0" />
           <div>
-            <p className="font-bold">Order Placed Successfully!</p>
-            <p className="text-sm mt-0.5">Order ID: #{orderSuccess.slice(0, 8)}. Reloading inventory...</p>
+            <p className="font-bold text-white">Order Placed Successfully!</p>
+            <p className="text-xs mt-0.5">Order ID: #{orderSuccess.slice(0, 8)}. Reloading inventory...</p>
           </div>
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-2xl text-red-800 dark:bg-red-950/20 dark:border-red-900/50 dark:text-red-400 flex items-center gap-3">
-          <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400 shrink-0" />
+        <div className="p-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-rose-450 flex items-center gap-3">
+          <AlertTriangle className="h-6 w-6 text-rose-455 shrink-0" />
           <div>
-            <p className="font-bold">Checkout Failed</p>
-            <p className="text-sm mt-0.5">{error}</p>
+            <p className="font-bold text-white">Checkout Failed</p>
+            <p className="text-xs mt-0.5">{error}</p>
           </div>
         </div>
       )}
 
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-3">
         {/* Catalog Grid */}
         <div className="lg:col-span-2 space-y-6">
           {/* Controls */}
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 dark:text-zinc-500" />
+              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent dark:border-zinc-800 dark:bg-zinc-900 transition dark:text-zinc-50 text-sm"
+                className="w-full pl-10 pr-4 py-2 bg-[#141417] border border-[#1f1f23] rounded-xl focus:outline-none focus:ring-1 focus:ring-zinc-500 transition text-zinc-200 text-xs"
               />
             </div>
             
@@ -203,10 +194,10 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
                 <button
                   key={dim}
                   onClick={() => setSelectedDimension(dim)}
-                  className={`px-3 py-2 text-xs font-semibold rounded-xl border transition cursor-pointer ${
+                  className={`px-3 py-2 text-[10px] font-bold rounded-xl border transition cursor-pointer ${
                     selectedDimension === dim
-                      ? 'bg-emerald-600 border-emerald-600 text-white'
-                      : 'bg-white border-zinc-200 text-zinc-600 hover:bg-zinc-50 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800'
+                      ? 'bg-white border-white text-black font-extrabold shadow-md'
+                      : 'bg-[#141417] border-[#1f1f23] text-zinc-400 hover:text-white'
                   }`}
                 >
                   {dim}
@@ -217,12 +208,12 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
 
           {/* Products Grid */}
           {filteredProducts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 text-zinc-500">
-              <Package className="h-10 w-10 mb-2 opacity-55" />
-              <p>No products available matching filters.</p>
+            <div className="flex flex-col items-center justify-center py-16 border border-dashed border-[#1f1f23] rounded-2xl bg-[#09090b] text-zinc-500">
+              <Package className="h-10 w-10 mb-2 opacity-55 text-zinc-650" />
+              <p className="text-xs">No products available matching filters.</p>
             </div>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4.5 sm:grid-cols-2">
               {filteredProducts.map((product) => {
                 const baseUnit = BASE_UNITS[product.dimensionType];
                 const availableBase = parseFloat(product.totalQuantity);
@@ -237,27 +228,27 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
                 return (
                   <div
                     key={product.id}
-                    className={`group relative overflow-hidden rounded-2xl border bg-white p-5 transition flex flex-col justify-between dark:bg-zinc-900 ${
+                    className={`group relative overflow-hidden rounded-2xl border bg-[#09090b] p-5 transition flex flex-col justify-between ${
                       isOutOfStock
-                        ? 'border-zinc-100 opacity-60 dark:border-zinc-800'
-                        : 'border-zinc-200 hover:border-emerald-500/50 hover:shadow-md dark:border-zinc-800 dark:hover:border-emerald-500/30'
+                        ? 'border-[#1f1f23] opacity-60'
+                        : 'border-[#1f1f23] hover:border-zinc-500/50 hover:shadow-md'
                     }`}
                   >
                     <div>
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">
+                          <h4 className="font-bold text-white group-hover:text-white transition text-sm">
                             {product.name}
                           </h4>
-                          <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-0.5">SKU: {product.sku}</p>
+                          <p className="text-[10px] text-zinc-500 mt-0.5">SKU: {product.sku}</p>
                         </div>
-                        <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300">
+                        <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold bg-[#141417] text-zinc-400 border border-[#1f1f23]">
                           {product.dimensionType}
                         </span>
                       </div>
 
                       {product.description && (
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2 line-clamp-2">
+                        <p className="text-[11px] text-zinc-400 mt-2 line-clamp-2 leading-relaxed">
                           {product.description}
                         </p>
                       )}
@@ -265,10 +256,10 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
 
                     <div className="mt-5 space-y-4">
                       {/* Pricing and Stock Info */}
-                      <div className="flex items-baseline justify-between border-t border-zinc-100 dark:border-zinc-800/80 pt-3">
-                        <div className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <div className="flex items-baseline justify-between border-t border-[#1f1f23] pt-3">
+                        <div className="text-[10px] text-zinc-500">
                           Stock:{' '}
-                          <span className="font-semibold text-zinc-700 dark:text-zinc-300">
+                          <span className="font-bold text-zinc-300">
                             {product.dimensionType === 'WEIGHT' && availableBase >= 1000
                               ? `${convertFromBaseUnit(availableBase, 'kg')} kg`
                               : product.dimensionType === 'VOLUME' && availableBase >= 1000
@@ -277,37 +268,37 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
                           </span>
                         </div>
                         <div className="text-right">
-                          <span className="text-base font-extrabold text-zinc-900 dark:text-zinc-50">
+                          <span className="text-sm font-extrabold text-white">
                             {formatINR(displayPrice)}
                           </span>
-                          <span className="text-xs text-zinc-500 dark:text-zinc-400">/{inputState.unit}</span>
+                          <span className="text-[10px] text-zinc-500">/{inputState.unit}</span>
                         </div>
                       </div>
 
                       {/* Order Controls */}
                       {!isOutOfStock && (
                         <div className="flex items-center gap-2">
-                          <div className="flex rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden flex-1">
+                          <div className="flex rounded-xl border border-[#1f1f23] bg-[#141417] overflow-hidden flex-1">
                             <input
                               type="number"
                               step="any"
                               placeholder="Qty"
                               value={inputState.quantity}
                               onChange={(e) => handleInputChange(product.id, 'quantity', e.target.value)}
-                              className="w-full px-2.5 py-1.5 bg-transparent focus:outline-none text-sm dark:text-zinc-50"
+                              className="w-full px-2.5 py-1.5 bg-transparent focus:outline-none text-xs text-white"
                             />
                             {DIMENSION_UNITS[product.dimensionType].length > 1 ? (
                               <select
                                 value={inputState.unit}
                                 onChange={(e) => handleInputChange(product.id, 'unit', e.target.value as any)}
-                                className="border-l border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800 px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 focus:outline-none cursor-pointer"
+                                className="border-l border-[#1f1f23] bg-zinc-900 px-2 text-[10px] font-bold text-zinc-305 focus:outline-none cursor-pointer"
                               >
                                 {DIMENSION_UNITS[product.dimensionType].map((u) => (
                                   <option key={u} value={u}>{u}</option>
                                 ))}
                               </select>
                             ) : (
-                              <span className="flex items-center justify-center bg-zinc-50 dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 border-l border-zinc-200 dark:border-zinc-800">
+                              <span className="flex items-center justify-center bg-zinc-905 px-3 text-[10px] font-bold text-zinc-400 border-l border-[#1f1f23]">
                                 {baseUnit}
                               </span>
                             )}
@@ -315,7 +306,7 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
                           
                           <button
                             onClick={() => addToCart(product)}
-                            className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl px-3 py-2 text-xs font-semibold transition cursor-pointer"
+                            className="bg-white hover:bg-zinc-200 text-black rounded-xl px-3 py-1.5 text-[10px] font-bold transition cursor-pointer"
                           >
                             Add
                           </button>
@@ -323,7 +314,7 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
                       )}
 
                       {isOutOfStock && (
-                        <div className="text-center py-1.5 bg-zinc-100 text-zinc-500 rounded-xl text-xs font-semibold dark:bg-zinc-800 dark:text-zinc-400">
+                        <div className="text-center py-1.5 bg-[#141417] text-zinc-500 rounded-xl text-[10px] font-bold border border-[#1f1f23]">
                           Out of Stock
                         </div>
                       )}
@@ -337,40 +328,40 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
 
         {/* Shopping Cart Sidebar */}
         <div className="relative">
-          <div className="sticky top-20 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900 flex flex-col min-h-[400px] justify-between shadow-sm">
+          <div className="sticky top-20 rounded-2xl border border-[#1f1f23] bg-[#09090b] p-5 flex flex-col min-h-[400px] justify-between shadow-lg shadow-black/40">
             <div>
-              <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4">
-                <h3 className="font-extrabold text-lg text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
-                  <ShoppingCart className="h-5 w-5 text-emerald-500" />
+              <div className="flex items-center justify-between border-b border-[#1f1f23] pb-3 mb-4.5">
+                <h3 className="font-extrabold text-sm text-white flex items-center gap-2">
+                  <ShoppingCart className="h-4.5 w-4.5 text-zinc-300" />
                   Order Cart
                 </h3>
-                <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-bold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                <span className="rounded-full bg-zinc-800 border border-zinc-700 px-2 py-0.5 text-[10px] font-bold text-zinc-300">
                   {cart.length}
                 </span>
               </div>
 
               {cart.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 text-zinc-400 dark:text-zinc-500">
-                  <ShoppingCart className="h-8 w-8 mb-2 opacity-50" />
+                <div className="flex flex-col items-center justify-center py-12 text-zinc-500">
+                  <ShoppingCart className="h-8 w-8 mb-2 opacity-50 text-zinc-650" />
                   <p className="text-xs">Your cart is empty.</p>
                 </div>
               ) : (
                 <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
                   {cart.map((item, idx) => (
-                    <div key={`${item.productId}-${item.unit}`} className="flex items-center justify-between py-2 border-b border-zinc-50 dark:border-zinc-800/50">
+                    <div key={`${item.productId}-${item.unit}`} className="flex items-center justify-between py-2 border-b border-[#1f1f23]/50">
                       <div>
-                        <p className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 line-clamp-1">{item.name}</p>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                        <p className="font-semibold text-xs text-white line-clamp-1">{item.name}</p>
+                        <p className="text-[10px] text-zinc-500 mt-0.5">
                           {item.quantity} {item.unit} @ {formatINR(item.pricePerUnit)}/{item.unit}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="font-bold text-sm text-zinc-900 dark:text-zinc-50">{formatINR(item.cost)}</span>
+                        <span className="font-bold text-xs text-white">{formatINR(item.cost)}</span>
                         <button
                           onClick={() => removeFromCart(idx)}
-                          className="text-zinc-400 hover:text-red-500 transition cursor-pointer p-1"
+                          className="text-zinc-500 hover:text-rose-500 transition cursor-pointer p-1"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </div>
@@ -379,16 +370,16 @@ export function SellerDashboard({ initialProducts }: { initialProducts: Product[
               )}
             </div>
 
-            <div className="border-t border-zinc-100 dark:border-zinc-800/80 pt-4 mt-4 space-y-4">
+            <div className="border-t border-[#1f1f23] pt-4 mt-4 space-y-4">
               <div className="flex items-baseline justify-between">
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">Total Order Amount</span>
-                <span className="text-xl font-extrabold text-zinc-900 dark:text-zinc-50">{formatINR(cartTotal)}</span>
+                <span className="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider">Total Amount</span>
+                <span className="text-lg font-extrabold text-white">{formatINR(cartTotal)}</span>
               </div>
 
               <button
                 onClick={handleCheckout}
                 disabled={cart.length === 0 || loading}
-                className="w-full flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-100 disabled:text-zinc-400 text-white rounded-xl py-2.5 text-sm font-semibold transition cursor-pointer disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-1.5 bg-white hover:bg-zinc-200 disabled:bg-[#141417] disabled:border-[#1f1f23] disabled:text-zinc-600 text-black rounded-xl py-2.5 text-xs font-bold transition cursor-pointer disabled:cursor-not-allowed shadow-md"
               >
                 {loading ? 'Processing Order...' : 'Place Order'}
                 {!loading && <ArrowRight className="h-4 w-4" />}

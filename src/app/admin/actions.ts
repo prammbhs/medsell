@@ -23,7 +23,12 @@ export async function createProduct(formData: any) {
     return { error: validated.error.issues[0].message };
   }
 
-  const { name, sku, description, dimensionType, totalQuantity, pricePerBaseUnit, unit } = validated.data;
+  const {
+    name, sku, description, dimensionType, totalQuantity, pricePerBaseUnit, unit,
+    category, manufacturer, strength, packSize, baseUnit, wholesalePrice, gstRate,
+    maxDiscount, lowStockThreshold, status, prescriptionRequired, controlledSubstance,
+    coldChainRequired, hsnCode, drugSchedule, trackExpiry
+  } = validated.data;
 
   // Convert quantity and price to base units
   const baseQuantity = convertToBaseUnit(totalQuantity, unit).toString();
@@ -37,6 +42,23 @@ export async function createProduct(formData: any) {
       dimensionType,
       totalQuantity: baseQuantity,
       pricePerBaseUnit: basePrice,
+      
+      category: category || null,
+      manufacturer: manufacturer || null,
+      strength: strength || null,
+      packSize: packSize ? packSize.toString() : null,
+      baseUnit: baseUnit || null,
+      wholesalePrice: wholesalePrice ? wholesalePrice.toString() : null,
+      gstRate: gstRate ? gstRate.toString() : null,
+      maxDiscount: maxDiscount ? maxDiscount.toString() : null,
+      lowStockThreshold: lowStockThreshold ? lowStockThreshold.toString() : null,
+      status: status || 'Active',
+      prescriptionRequired: prescriptionRequired || false,
+      controlledSubstance: controlledSubstance || false,
+      coldChainRequired: coldChainRequired || false,
+      hsnCode: hsnCode || null,
+      drugSchedule: drugSchedule || null,
+      trackExpiry: trackExpiry || false,
     });
 
     revalidatePath('/admin/products');
@@ -59,7 +81,12 @@ export async function updateProduct(id: string, formData: any) {
     return { error: validated.error.issues[0].message };
   }
 
-  const { name, sku, description, dimensionType, totalQuantity, pricePerBaseUnit, unit } = validated.data;
+  const {
+    name, sku, description, dimensionType, totalQuantity, pricePerBaseUnit, unit,
+    category, manufacturer, strength, packSize, baseUnit, wholesalePrice, gstRate,
+    maxDiscount, lowStockThreshold, status, prescriptionRequired, controlledSubstance,
+    coldChainRequired, hsnCode, drugSchedule, trackExpiry
+  } = validated.data;
 
   // Convert quantity and price to base units
   const baseQuantity = convertToBaseUnit(totalQuantity, unit).toString();
@@ -73,6 +100,23 @@ export async function updateProduct(id: string, formData: any) {
       dimensionType,
       totalQuantity: baseQuantity,
       pricePerBaseUnit: basePrice,
+      
+      category: category || null,
+      manufacturer: manufacturer || null,
+      strength: strength || null,
+      packSize: packSize ? packSize.toString() : null,
+      baseUnit: baseUnit || null,
+      wholesalePrice: wholesalePrice ? wholesalePrice.toString() : null,
+      gstRate: gstRate ? gstRate.toString() : null,
+      maxDiscount: maxDiscount ? maxDiscount.toString() : null,
+      lowStockThreshold: lowStockThreshold ? lowStockThreshold.toString() : null,
+      status: status || 'Active',
+      prescriptionRequired: prescriptionRequired || false,
+      controlledSubstance: controlledSubstance || false,
+      coldChainRequired: coldChainRequired || false,
+      hsnCode: hsnCode || null,
+      drugSchedule: drugSchedule || null,
+      trackExpiry: trackExpiry || false,
       updatedAt: new Date(),
     }).where(eq(products.id, id));
 

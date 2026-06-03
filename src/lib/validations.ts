@@ -14,6 +14,23 @@ export const productSchema = z.object({
   totalQuantity: z.coerce.number().positive('Quantity must be greater than 0'),
   pricePerBaseUnit: z.coerce.number().positive('Price must be greater than 0'),
   unit: z.enum(['g', 'kg', 'mL', 'L', 'items']),
+  
+  category: z.string().optional().or(z.literal('')),
+  manufacturer: z.string().optional().or(z.literal('')),
+  strength: z.string().optional().or(z.literal('')),
+  packSize: z.coerce.number().optional(),
+  baseUnit: z.string().optional().or(z.literal('')),
+  wholesalePrice: z.coerce.number().optional(),
+  gstRate: z.coerce.number().optional(),
+  maxDiscount: z.coerce.number().optional(),
+  lowStockThreshold: z.coerce.number().optional(),
+  status: z.string().optional().or(z.literal('')),
+  prescriptionRequired: z.boolean().optional(),
+  controlledSubstance: z.boolean().optional(),
+  coldChainRequired: z.boolean().optional(),
+  hsnCode: z.string().optional().or(z.literal('')),
+  drugSchedule: z.string().optional().or(z.literal('')),
+  trackExpiry: z.boolean().optional(),
 });
 
 export const orderItemSchema = z.object({

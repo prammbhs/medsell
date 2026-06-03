@@ -69,9 +69,9 @@ export function OrderList({
   return (
     <div className="space-y-4">
       {orders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 text-zinc-500">
-          <ShoppingBag className="h-10 w-10 mb-2 opacity-50" />
-          <p>No orders found.</p>
+        <div className="flex flex-col items-center justify-center py-16 border border-dashed border-[#1f1f23] rounded-2xl bg-[#09090b] text-zinc-550">
+          <ShoppingBag className="h-10 w-10 mb-2 opacity-50 text-zinc-650" />
+          <p className="text-xs">No orders found.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -83,20 +83,20 @@ export function OrderList({
             return (
               <div
                 key={order.id}
-                className="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm"
+                className="overflow-hidden rounded-2xl border border-[#1f1f23] bg-[#09090b] shadow-md"
               >
                 {/* Order Summary Row */}
                 <div
                   onClick={() => toggleExpand(order.id)}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between p-5 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition cursor-pointer gap-4"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-5 hover:bg-[#141417]/50 transition cursor-pointer gap-4"
                 >
                   <div className="flex items-start gap-4">
                     <div className={`rounded-xl p-2.5 ${
                       order.status === 'COMPLETED'
-                        ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400'
+                        ? 'bg-zinc-800 text-zinc-300 border border-zinc-700'
                         : order.status === 'CANCELLED'
-                        ? 'bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400'
-                        : 'bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400'
+                        ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                     }`}>
                       {order.status === 'COMPLETED' ? (
                         <CheckCircle2 className="h-5 w-5" />
@@ -109,25 +109,25 @@ export function OrderList({
                     
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-zinc-900 dark:text-zinc-50">
-                          Order #{order.id.slice(0, 8)}
+                        <span className="font-bold text-white text-sm">
+                          Order #{order.id.slice(0, 8).toUpperCase()}
                         </span>
-                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold ${
                           order.status === 'COMPLETED'
-                            ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400'
+                            ? 'bg-zinc-800 text-zinc-300 border border-zinc-750'
                             : order.status === 'CANCELLED'
-                            ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400'
-                            : 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400'
+                            ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                            : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                         }`}>
                           {order.status}
                         </span>
                       </div>
                       
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500 mt-1">
                         <span>{order.createdAt ? new Date(order.createdAt).toLocaleString() : ''}</span>
                         {isAdmin && (
                           <span className="flex items-center gap-1">
-                            <User className="h-3 w-3" />
+                            <User className="h-3.5 w-3.5 text-zinc-400" />
                             {order.userEmail}
                           </span>
                         )}
@@ -137,37 +137,37 @@ export function OrderList({
 
                   <div className="flex items-center justify-between sm:justify-end gap-6">
                     <div className="text-right">
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">Total Price</p>
-                      <p className="text-lg font-extrabold text-zinc-900 dark:text-zinc-50 mt-0.5">
-                        {formatINR(order.totalAmount)}
+                      <p className="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider">Total Price</p>
+                      <p className="text-base font-extrabold text-white mt-0.5">
+                        {formatINR(parseFloat(order.totalAmount))}
                       </p>
                     </div>
                     {isExpanded ? (
-                      <ChevronUp className="h-5 w-5 text-zinc-400" />
+                      <ChevronUp className="h-5 w-5 text-zinc-500" />
                     ) : (
-                      <ChevronDown className="h-5 w-5 text-zinc-400" />
+                      <ChevronDown className="h-5 w-5 text-zinc-500" />
                     )}
                   </div>
                 </div>
 
                 {/* Expanded Details */}
                 {isExpanded && (
-                  <div className="border-t border-zinc-100 bg-zinc-50/30 px-6 py-5 dark:border-zinc-800 dark:bg-zinc-800/10 space-y-4">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+                  <div className="border-t border-[#1f1f23] bg-[#09090b] px-6 py-5 space-y-4">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                       Order Line Items
                     </h4>
                     
-                    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-                      <table className="w-full text-left border-collapse text-sm">
+                    <div className="overflow-hidden rounded-xl border border-[#1f1f23] bg-[#141417]">
+                      <table className="w-full text-left border-collapse text-xs">
                         <thead>
-                          <tr className="border-b border-zinc-200 bg-zinc-50/50 text-xs font-semibold text-zinc-500 dark:border-zinc-800 dark:bg-zinc-800/30 dark:text-zinc-400">
-                            <th className="px-4 py-2.5">Product</th>
-                            <th className="px-4 py-2.5">Ordered Quantity</th>
-                            <th className="px-4 py-2.5">Price Unit</th>
-                            <th className="px-4 py-2.5 text-right">Subtotal</th>
+                          <tr className="border-b border-[#1f1f23] bg-zinc-900/30 text-zinc-500 font-bold">
+                            <th className="px-4 py-3">Product</th>
+                            <th className="px-4 py-3">Ordered Quantity</th>
+                            <th className="px-4 py-3">Price Unit</th>
+                            <th className="px-4 py-3 text-right">Subtotal</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-zinc-150 dark:divide-zinc-800 text-zinc-700 dark:text-zinc-300">
+                        <tbody className="divide-y divide-[#1f1f23] text-zinc-300">
                           {orderItemsFiltered.map((item) => {
                             const qtyVal = parseFloat(item.quantity);
                             const priceVal = parseFloat(item.priceAtTime);
@@ -176,14 +176,14 @@ export function OrderList({
                             const baseUnit = item.dimensionType === 'WEIGHT' ? 'g' : item.dimensionType === 'VOLUME' ? 'mL' : 'items';
 
                             return (
-                              <tr key={item.id}>
-                                <td className="px-4 py-2.5">
-                                  <div className="font-semibold text-zinc-900 dark:text-zinc-50">{item.productName}</div>
-                                  <div className="text-[10px] text-zinc-400 dark:text-zinc-500">SKU: {item.sku}</div>
+                              <tr key={item.id} className="hover:bg-zinc-900/10">
+                                <td className="px-4 py-3">
+                                  <div className="font-bold text-white">{item.productName}</div>
+                                  <div className="text-[10px] text-zinc-500 mt-0.5">SKU: {item.sku}</div>
                                 </td>
-                                <td className="px-4 py-2.5">{displayQty}</td>
-                                <td className="px-4 py-2.5">{formatINR(priceVal)}/{baseUnit}</td>
-                                <td className="px-4 py-2.5 text-right font-bold text-zinc-900 dark:text-zinc-50">
+                                <td className="px-4 py-3">{displayQty}</td>
+                                <td className="px-4 py-3">{formatINR(priceVal)}/{baseUnit}</td>
+                                <td className="px-4 py-3 text-right font-bold text-white">
                                   {formatINR(subtotal)}
                                 </td>
                               </tr>
@@ -195,8 +195,8 @@ export function OrderList({
 
                     {/* Admin Status Actions */}
                     {isAdmin && (
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 border-t border-zinc-200 dark:border-zinc-800/80 gap-3">
-                        <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 border-t border-[#1f1f23] gap-3">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                           Change Status (Admin Action):
                         </span>
                         
@@ -209,14 +209,14 @@ export function OrderList({
                                 e.stopPropagation();
                                 handleStatusChange(order.id, st as any);
                               }}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer ${
+                              className={`px-3 py-1.5 rounded-lg text-[10px] font-bold border transition cursor-pointer ${
                                 order.status === st
-                                  ? 'bg-zinc-100 border-zinc-250 text-zinc-800 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-200'
+                                  ? 'bg-[#141417] border-[#1f1f23] text-zinc-300'
                                   : st === 'COMPLETED'
-                                  ? 'border-emerald-200 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-900 dark:text-emerald-400 dark:hover:bg-emerald-950/20'
+                                  ? 'border-zinc-750 text-white bg-zinc-800 hover:bg-zinc-700'
                                   : st === 'CANCELLED'
-                                  ? 'border-red-200 text-red-600 hover:bg-red-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950/20'
-                                  : 'border-amber-200 text-amber-600 hover:bg-amber-50 dark:border-amber-900 dark:text-amber-400 dark:hover:bg-amber-950/20'
+                                  ? 'border-rose-500/20 text-rose-400 hover:bg-rose-500/10'
+                                  : 'border-amber-500/20 text-amber-400 hover:bg-amber-500/10'
                               }`}
                             >
                               {st}
