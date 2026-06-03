@@ -88,6 +88,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [warning, setWarning] = useState('');
 
   // Auto-fill Readonly Base Unit based on dimension type and SubType selection
   const getBaseUnitLabel = () => {
@@ -172,6 +173,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
     setDrugSchedule('None / OTC');
     setTrackExpiry(false);
     setError('');
+    setWarning('');
     setView('form');
   };
 
@@ -211,6 +213,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
     setDrugSchedule(p.drugSchedule || 'None / OTC');
     setTrackExpiry(!!p.trackExpiry);
     setError('');
+    setWarning('');
     setView('form');
   };
 
@@ -218,6 +221,22 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
     e.preventDefault();
     setLoading(true);
     setError('');
+    setWarning('');
+
+    const gstRateValue = parseFloat(gstRate);
+    const discountValue = parseFloat(maxDiscount);
+
+    if (Number.isNaN(gstRateValue) || gstRateValue < 0 || gstRateValue > 100) {
+      setWarning('GST rate must be between 0 and 100.');
+      setLoading(false);
+      return;
+    }
+
+    if (Number.isNaN(discountValue) || discountValue < 0 || discountValue > 100) {
+      setWarning('Discount percentage must be between 0 and 100.');
+      setLoading(false);
+      return;
+    }
 
     // Mapping inputs to match database conventions
     const baseUnit = BASE_UNITS[dimensionType];
@@ -237,8 +256,8 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
       packSize: parseFloat(packSize),
       baseUnit: baseUnitVal,
       wholesalePrice: parseFloat(wholesalePrice || '0'),
-      gstRate: parseFloat(gstRate),
-      maxDiscount: parseFloat(maxDiscount),
+      gstRate: gstRateValue,
+      maxDiscount: discountValue,
       lowStockThreshold: parseFloat(lowStockThreshold),
       status: productStatus,
       prescriptionRequired,
@@ -308,6 +327,13 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
           <div className="p-3.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-450 font-bold flex items-center gap-2">
             <AlertTriangle className="h-4.5 w-4.5 shrink-0" />
             <span>{error}</span>
+          </div>
+        )}
+
+        {warning && (
+          <div className="p-3.5 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-300 font-bold flex items-center gap-2">
+            <AlertTriangle className="h-4.5 w-4.5 shrink-0" />
+            <span>{warning}</span>
           </div>
         )}
 
@@ -530,6 +556,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
                   <input
                     type="number"
                     step="any"
+                    min="0"
                     required
                     placeholder="₹ 0.00"
                     value={price}
@@ -545,6 +572,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
                   <input
                     type="number"
                     step="any"
+                    min="0"
                     placeholder="₹ 0.00"
                     value={wholesalePrice}
                     onChange={(e) => setWholesalePrice(e.target.value)}
@@ -569,6 +597,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
                     <option value="18">18%</option>
                     <option value="28">28%</option>
                   </select>
+                  <span className="mt-1 block text-[9px] text-zinc-550">Allowed range: 0% to 100%.</span>
                 </div>
 
                 <div>
@@ -577,11 +606,14 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
                   </label>
                   <input
                     type="number"
+                    min="0"
+                    max="100"
                     placeholder="10"
                     value={maxDiscount}
                     onChange={(e) => setMaxDiscount(e.target.value)}
                     className="w-full px-3.5 py-2.5 bg-[#141417] border border-[#1f1f23] rounded-xl focus:outline-none focus:ring-1 focus:ring-zinc-500 text-zinc-200 text-xs"
                   />
+                  <span className="mt-1 block text-[9px] text-zinc-550">Allowed range: 0% to 100%.</span>
                 </div>
               </div>
 
@@ -593,6 +625,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
                   </label>
                   <input
                     type="number"
+                    min="0"
                     required
                     placeholder="e.g. 100"
                     value={quantity}
@@ -607,6 +640,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
                   </label>
                   <input
                     type="number"
+                    min="0"
                     placeholder="50"
                     value={lowStockThreshold}
                     onChange={(e) => setLowStockThreshold(e.target.value)}

@@ -33,6 +33,8 @@ export async function createProduct(formData: any) {
   // Convert quantity and price to base units
   const baseQuantity = convertToBaseUnit(totalQuantity, unit).toString();
   const basePrice = calculatePricePerBaseUnit(pricePerBaseUnit, unit).toString();
+  const serializeNumber = (value: number | undefined) =>
+    typeof value === 'number' ? value.toString() : null;
 
   try {
     await db.insert(products).values({
@@ -46,12 +48,12 @@ export async function createProduct(formData: any) {
       category: category || null,
       manufacturer: manufacturer || null,
       strength: strength || null,
-      packSize: packSize ? packSize.toString() : null,
+      packSize: serializeNumber(packSize),
       baseUnit: baseUnit || null,
-      wholesalePrice: wholesalePrice ? wholesalePrice.toString() : null,
-      gstRate: gstRate ? gstRate.toString() : null,
-      maxDiscount: maxDiscount ? maxDiscount.toString() : null,
-      lowStockThreshold: lowStockThreshold ? lowStockThreshold.toString() : null,
+      wholesalePrice: serializeNumber(wholesalePrice),
+      gstRate: serializeNumber(gstRate),
+      maxDiscount: serializeNumber(maxDiscount),
+      lowStockThreshold: serializeNumber(lowStockThreshold),
       status: status || 'Active',
       prescriptionRequired: prescriptionRequired || false,
       controlledSubstance: controlledSubstance || false,
@@ -91,6 +93,8 @@ export async function updateProduct(id: string, formData: any) {
   // Convert quantity and price to base units
   const baseQuantity = convertToBaseUnit(totalQuantity, unit).toString();
   const basePrice = calculatePricePerBaseUnit(pricePerBaseUnit, unit).toString();
+  const serializeNumber = (value: number | undefined) =>
+    typeof value === 'number' ? value.toString() : null;
 
   try {
     await db.update(products).set({
@@ -104,12 +108,12 @@ export async function updateProduct(id: string, formData: any) {
       category: category || null,
       manufacturer: manufacturer || null,
       strength: strength || null,
-      packSize: packSize ? packSize.toString() : null,
+      packSize: serializeNumber(packSize),
       baseUnit: baseUnit || null,
-      wholesalePrice: wholesalePrice ? wholesalePrice.toString() : null,
-      gstRate: gstRate ? gstRate.toString() : null,
-      maxDiscount: maxDiscount ? maxDiscount.toString() : null,
-      lowStockThreshold: lowStockThreshold ? lowStockThreshold.toString() : null,
+      wholesalePrice: serializeNumber(wholesalePrice),
+      gstRate: serializeNumber(gstRate),
+      maxDiscount: serializeNumber(maxDiscount),
+      lowStockThreshold: serializeNumber(lowStockThreshold),
       status: status || 'Active',
       prescriptionRequired: prescriptionRequired || false,
       controlledSubstance: controlledSubstance || false,
