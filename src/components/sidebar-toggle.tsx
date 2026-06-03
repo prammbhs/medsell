@@ -119,8 +119,29 @@ export function SidebarToggle({ role, email, pendingCount }: SidebarToggleProps)
               </div>
             </div>
 
-            {/* Footer settings & sign out */}
+            {/* Footer: user profile + settings + sign out */}
             <div className="space-y-4 pt-6 border-t border-[#1f1f23]">
+              {/* User Profile Block */}
+              <div className="flex items-center gap-3 rounded-xl bg-[#141417] border border-[#1f1f23] p-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-800 border border-zinc-700 text-white font-extrabold text-sm">
+                  {email ? email[0].toUpperCase() : 'U'}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider leading-none">
+                    {role === 'ADMIN' ? 'Admin' : 'Seller'}
+                  </p>
+                  <p className="text-xs font-bold text-white truncate mt-1">{email}</p>
+                </div>
+              </div>
+
+              <Link
+                href="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-zinc-400 hover:text-white transition"
+              >
+                <User className="h-4.5 w-4.5 text-zinc-650" />
+                <span>Profile Settings</span>
+              </Link>
               <Link
                 href="/dashboard"
                 onClick={() => setIsOpen(false)}
@@ -131,9 +152,9 @@ export function SidebarToggle({ role, email, pendingCount }: SidebarToggleProps)
               </Link>
               <button
                 onClick={() => signOut({ callbackUrl: '/login' })}
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-zinc-400 hover:text-white hover:bg-zinc-900 transition cursor-pointer"
+                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition cursor-pointer"
               >
-                <LogOut className="h-4.5 w-4.5 text-zinc-650" />
+                <LogOut className="h-4.5 w-4.5" />
                 <span>Sign Out</span>
               </button>
             </div>
