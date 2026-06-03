@@ -42,3 +42,5 @@ next-env.d.ts
 
 *.md
 seed.ts
+test-db.ts
+test-db.js
